@@ -31,6 +31,7 @@ class PianoSound:
         tone=Sine(frequency).to_audio_segment(200,volume=-15)
         tone.export(file_name, format="wav")
 
+
     def play_wav(self, file_name):
         chunk = 1024  
         f = wave.open(file_name,"rb")  
@@ -46,6 +47,7 @@ class PianoSound:
         stream.stop_stream()  
         stream.close()  
         p.terminate() 
+
 
     def play_note(self, midi_note):
         note=self.piano_notes_value[midi_note.split(',')[0]]

@@ -6,7 +6,7 @@ class PianoTutorialPlayer:
 
     nouts_to_play = PriorityQueue()
 
-    segment_time_value=125
+    segment_time_value=250
     current_screen_time=0
 
     buttons={}
@@ -82,18 +82,21 @@ class PianoTutorialPlayer:
     def on_reset_screen(self):
         self.current_screen_time=0
         self.repaint_buttons()
+    def on_reset_button(self):
+        self.nouts_to_play = PriorityQueue()
+        self.on_reset_screen()
 
     to_play=None
     item_to_play=None
     def play_trigger(self):
         print('Start palying!')
-        self.current_screen_time=0
-        self.repaint_buttons()
+        self.on_reset_screen()
         self.to_play=self.nouts_to_play.queue.copy()
+        self.to_play.sort()
         self.to_play.reverse()
+        print(self.to_play)
         if len(self.to_play)>0:
             self.item_to_play=self.to_play.pop()
-
     def play_tick(self, time:int=0):
         time = round(time)
         #step
@@ -109,3 +112,30 @@ class PianoTutorialPlayer:
             self.current_screen_time+=self.segment_time_value
             self.repaint_buttons()
     
+    ### Saving 
+    def save_list_to_file(self, file_path):
+        try:
+            data_list=self.nouts_to_play.queue
+            with open(file_path, 'w') as file:
+                for item in data_list:
+                    file.write(f"{item[0]}%{item[1]}\n")
+            print("Saved to ->",file_path)
+        except Exception as e:
+            print(f"Saving error: {e}")
+
+    def read_list_from_file(self, file_path):
+        try:
+            data_list = []
+            with open(file_path, 'r') as file:
+                for line in file:
+                    parts = line.strip().split('%')
+                    if len(parts) == 2:
+                        data_list.append((int(parts[0]), parts[1]))
+            self.nouts_to_play=PriorityQueue()
+            print(data_list)
+            for item in data_list:
+                self.nouts_to_play.put(item)
+            self.on_reset_screen()
+            print('save readed OK')
+        except Exception as e:
+            print(f"file read errorr: {e}")

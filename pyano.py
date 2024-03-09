@@ -4,6 +4,7 @@ import sys
 import time
 from SoundMenager import PianoSound
 import PianoTurotialPlayer as ptp
+from tkinter import filedialog
 
 
 
@@ -55,6 +56,13 @@ class PyanoWindow():
     def stop_timer(self):
         self.is_timer_started=False
 
+    def save_button(self, piano_tutorial:ptp.PianoTutorialPlayer):
+        file_path=tk.filedialog.asksaveasfilename(defaultextension=".save", filetypes=[("Pyano save file", "*.save"), ("All files", "*.*")])
+        piano_tutorial.save_list_to_file(file_path)
+
+    def load_button(self, piano_tutorial:ptp.PianoTutorialPlayer):
+        file_path=tk.filedialog.askopenfilename(defaultextension=".save", filetypes=[("Pyano save file", "*.save"), ("All files", "*.*")])
+        piano_tutorial.read_list_from_file(file_path)
 
     def show_window(self):
         root_window = tk.Tk()
@@ -76,11 +84,18 @@ class PyanoWindow():
         bt.pack(side=LEFT)
         bt=tk.Button(tool_bar, width=3, height=2, text="pause", padx=5, command=lambda: f'{self.stop_timer()}{piano_tutorial.on_reset_screen()}')
         bt.pack(side=LEFT,padx=(2,20))
-        box=tk.Text(tool_bar, width=8, height=1, padx=5)
+        box=tk.Text(tool_bar, width=10, height=1, padx=5)
         #box.configure(state=DISABLED) 
-        box.insert(1.0,"00:00:00")
+        box.insert(1.0,"00:00:000")
         box.pack(side=LEFT)
         self.time_text=box
+
+        bt=tk.Button(tool_bar, width=3, height=2, text="New", padx=5, command=lambda: f'{piano_tutorial.on_reset_button()}')
+        bt.pack(side=RIGHT,padx=(10,400))
+        bt=tk.Button(tool_bar, width=3, height=2, text="Load", padx=5, command=lambda: f'{self.load_button(piano_tutorial)}')
+        bt.pack(side=RIGHT,padx=(10,10))
+        bt=tk.Button(tool_bar, width=3, height=2, text="Save", padx=5, command=lambda: f'{self.save_button(piano_tutorial)}')
+        bt.pack(side=RIGHT,padx=(10,10))
 
         #scroll
         scroll = Frame(top_frame, bg="#222")
@@ -111,7 +126,11 @@ class PyanoWindow():
             piano_frame = tk.Frame(bottom_frame, background="#f00")
             piano_frame.pack(expand=False, anchor="s",side="left")
             self.create_piano_segment(piano_frame, oct)
+        #binds
+        root_window.bind('<MouseWheel>', lambda x: (f'{piano_tutorial.on_button_up(1)}' if x.delta==120 else f'{piano_tutorial.on_button_down(1)}' ) )
 
+        #load defoult
+        piano_tutorial.read_list_from_file('./demo.save')
         #main loop
         while root_window.running:
             root_window.update()

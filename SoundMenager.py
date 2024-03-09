@@ -32,7 +32,7 @@ class PianoSound:
 
     def create_wav(self, frequency, file_name):
         print('+'+file_name)
-        tone=Sine(frequency).to_audio_segment(125,volume=-15)
+        tone=Sine(frequency).to_audio_segment(250,volume= (-15 if frequency>200 else -5))
         tone.export(file_name, format="wav")
 
     py_audio = pyaudio.PyAudio()  

@@ -64,7 +64,7 @@ class PyanoWindow():
         setattr(root_window, 'running', True)
         root_window.protocol("WM_DELETE_WINDOW", lambda: setattr(root_window, 'running', False) )
 
-        piano_tutorial = ptp.PianoTutorialPlayer()
+        piano_tutorial = ptp.PianoTutorialPlayer(self.piano_sound)
         
         top_frame = tk.Frame(root_window, background="#444")
         top_frame.pack(expand=True, fill=tk.BOTH, side='top')
@@ -72,9 +72,9 @@ class PyanoWindow():
         #toolbar
         tool_bar = Frame(top_frame, bg="#111")
         tool_bar.pack(side=TOP, fill=X)
-        bt=tk.Button(tool_bar, width=3, height=2, text="play",padx=5, command=self.start_timer)
+        bt=tk.Button(tool_bar, width=3, height=2, text="play",padx=5, command=lambda: f'{piano_tutorial.play_trigger()}{self.start_timer()}' )
         bt.pack(side=LEFT)
-        bt=tk.Button(tool_bar, width=3, height=2, text="pause", padx=5, command=self.stop_timer)
+        bt=tk.Button(tool_bar, width=3, height=2, text="pause", padx=5, command=lambda: f'{self.stop_timer()}{piano_tutorial.on_reset_screen()}')
         bt.pack(side=LEFT,padx=(2,20))
         box=tk.Text(tool_bar, width=8, height=1, padx=5)
         #box.configure(state=DISABLED) 
@@ -85,9 +85,9 @@ class PyanoWindow():
         #scroll
         scroll = Frame(top_frame, bg="#222")
         scroll.pack(side=RIGHT, fill=Y)
-        bt_down=tk.Button(scroll, width=2, height=1, text="V")
+        bt_down=tk.Button(scroll, width=2, height=1, text="V", command=piano_tutorial.on_button_down)
         bt_down.pack(side=BOTTOM)
-        bt_top=tk.Button(scroll, width=2, height=1, text="^")
+        bt_top=tk.Button(scroll, width=2, height=1, text="^", command=piano_tutorial.on_button_up)
         bt_top.pack(side=TOP)
         
         #music map
@@ -121,6 +121,7 @@ class PyanoWindow():
                 self.time_text.delete(1.0, tk.END)
                 play_pass_time=elasped_time
                 self.time_text.insert(tk.END, self.milsec_to_timetext(elasped_time))
+                piano_tutorial.play_tick(elasped_time)
                 #print(self.milsec_to_timetext(elasped_time))
             else:
                 self.time_text.config(bg="#fff")

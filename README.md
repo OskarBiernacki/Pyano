@@ -1,5 +1,7 @@
 # Pyano
  Piano tutorials based tool
+ Demand screen resolution: `1920x1080`
+
 
 ## Using
  ```python pyano.py```

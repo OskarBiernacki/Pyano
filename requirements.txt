@@ -1,4 +1,4 @@
 pydub
 wave
 pyaudio
-tkinter
+tk

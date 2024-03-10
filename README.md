@@ -22,14 +22,15 @@ Pyano is a versatile Python tool dedicated to the art of composing piano tutoria
 
 #### starting
 ```
-
 python pyano.py
-
 ```
 #### requirements
 ```
 pip install -r requirements.txt
 ```
+#### fluidsynth
+Add the fluidsynth-x64\bin subdirectory to your PATH. To do this, click in the search box on the task bar, run the command 'Edit the system environment variables', click 'Environment Variables…', select Path in the 'User variables' section, click 'Edit…', click New, then enter the path of the bin subdirectory, e.g. c:\Users\me\install\fluidsynth-x64\bin.
+
 ## Contributing
 
 Community contributions are encouraged. Feel free to share your ideas through issues or pull requests.
@@ -45,6 +46,8 @@ For any inquiries or feedback, don't hesitate to get in touch. Unleash your crea
 * [Yamaha C3 Grand Piano sf2](https://musical-artifacts.com/artifacts/3700)
 
 * [fluidsynth 2.3.4](https://github.com/FluidSynth/fluidsynth/releases/tag/v2.3.4)
+
+* [fluidsynth github](https://github.com/SpotlightKid/pyfluidsynth)
 
 * [Piano key frequencies theory](https://en.wikipedia.org/wiki/Piano_key_frequencies)
 

@@ -4,14 +4,14 @@ import sys
 import time
 from SoundMenager import PianoSound
 import PianoTurotialPlayer as ptp
+from fluidsynth_menager import PianoPlayer
 from tkinter import filedialog
-
-
 
 class PyanoWindow():
     piano_notes = ["C","C#","D", "D#", "E", "F","F#","G", "G#", "A", "A#","H"]
     time_text=None
-    piano_sound=PianoSound()
+    #piano_player=PianoSound()
+    piano_player=PianoPlayer()
     play_pass_time=0
 
     def __init__(self):
@@ -19,7 +19,7 @@ class PyanoWindow():
     
     def play_note(self, note):
         print("Playing: {0}".format(note))
-        self.piano_sound.play_note(note)
+        self.piano_player.play_note(note)
 
     def create_piano_segment(self, frame ,octava):
         for note in self.piano_notes:
@@ -72,7 +72,7 @@ class PyanoWindow():
         setattr(root_window, 'running', True)
         root_window.protocol("WM_DELETE_WINDOW", lambda: setattr(root_window, 'running', False) )
 
-        piano_tutorial = ptp.PianoTutorialPlayer(self.piano_sound)
+        piano_tutorial = ptp.PianoTutorialPlayer(self.piano_player)
         
         top_frame = tk.Frame(root_window, background="#444")
         top_frame.pack(expand=True, fill=tk.BOTH, side='top')

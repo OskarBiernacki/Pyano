@@ -2,3 +2,4 @@ pydub
 wave
 pyaudio
 tk
+pyfluidsynth

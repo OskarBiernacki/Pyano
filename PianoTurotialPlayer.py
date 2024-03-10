@@ -15,7 +15,7 @@ class PianoTutorialPlayer:
 
     piano_sound_menager=None
 
-    def __init__(self, piano_sound_menager:ps):
+    def __init__(self, piano_sound_menager):
         self.piano_sound_menager=piano_sound_menager
         print("PianoTutorialPlayer initieted")
 
@@ -104,6 +104,7 @@ class PianoTutorialPlayer:
             while self.item_to_play != None and self.item_to_play[0] <= self.current_screen_time:
                 print('play:',self.item_to_play)
                 self.piano_sound_menager.play_note(self.item_to_play[1])
+                #self.piano_sound_menager.play_note(self.item_to_play[1],0.5)
                 if len(self.to_play)>0:
                     self.item_to_play=self.to_play.pop()
                 else:
